@@ -1,7 +1,5 @@
 package henriquesantos.com.pipeline.service;
 
-import java.io.IOException;
-
 import org.springframework.stereotype.Service;
 
 @Service
