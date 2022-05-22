@@ -32,7 +32,7 @@ jobs:
     # Build 
     - name: Build with Maven
       working-directory: pipeline-demo
-      run: mvn install -DskipTests
+      run: mvn --batch-mode --update-snapshots verify
       
     # Tests
     - name: Maven Test
