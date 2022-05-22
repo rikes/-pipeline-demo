@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+          fetch-depth: 0
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -29,7 +31,6 @@ jobs:
     
     # Build 
     - name: Build with Maven
-      working-directory: pipeline-demo
       run: mvn --batch-mode --update-snapshots verify
       
     # Tests
