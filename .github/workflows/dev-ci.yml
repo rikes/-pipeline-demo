@@ -39,10 +39,10 @@ jobs:
     
     # Artifact jar
     - name: Upload Maven build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: pipeline-demo.jar
-        path: pipeline-demo/target/pipeline-demo.jar
+        path: /home/runner/work/pipeline-demo/pipeline-demo/target/pipeline-demo-0.0.1-SNAPSHOT.jar
     
     # Sonar Complete
     - name: Cache SonarCloud packages
@@ -51,12 +51,6 @@ jobs:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
-    - name: Cache Maven packages
-      uses: actions/cache@v1
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2
     - name: Build and analyze
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
