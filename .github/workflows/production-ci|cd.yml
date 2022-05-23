@@ -1,11 +1,8 @@
-name: Java CI with Maven - Branch Master for Production
+name: Java CI|CD with Maven - Branch Master for Production
 
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
-    types: [opened]
 
 jobs:
   build:
