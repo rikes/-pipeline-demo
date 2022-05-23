@@ -1,9 +1,11 @@
-name: Java CI with Maven - Branch DEV
+name: Java CI with Maven - Branch Master for Production
 
 on:
+  push:
+    branches: [master]
   pull_request:
-    branches: [dev]
-    types: [opened, synchronize, reopened]
+    branches: [master]
+    types: [opened]
 
 jobs:
   build:
@@ -19,10 +21,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    
-    # Hello World
-    - name: Hello World
-      run: echo "Hello pipeline with Github Actions"
     
     # Sonar Complete
     - name: Cache SonarCloud packages
