@@ -1,7 +1,6 @@
 package henriquesantos.com.pipeline;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -46,7 +45,7 @@ public class TestPipelineDemo {
         TimeLocal timeLocalNow = pipelineService.dateTimeNow();
         LocalDateTime dateTimeNow = LocalDateTime.now();
 
-        assertNotEquals(LocalDateTime.parse(timeLocalNow.dateTime(), dateTimeFormatter).toLocalDate(), dateTimeNow.toLocalDate());
+        assertEquals(LocalDateTime.parse(timeLocalNow.dateTime(), dateTimeFormatter).toLocalDate(), dateTimeNow.toLocalDate());
     }
 
 }
