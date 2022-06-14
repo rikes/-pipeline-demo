@@ -6,8 +6,11 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-
+  build-ci:
+    permissions:
+      id-token: write
+      contents: read
+      checks: write
     runs-on: ubuntu-latest
 
     steps:
