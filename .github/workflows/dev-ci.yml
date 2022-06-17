@@ -59,8 +59,8 @@ jobs:
         reporter: java-junit
         fail-on-error: true  
     
+  # Artifact jar
   publication-jar:
-    # Artifact jar
     name: Publication Jar file
     needs: build
     runs-on: ubuntu-latest
