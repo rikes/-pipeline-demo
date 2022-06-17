@@ -26,20 +26,21 @@ jobs:
     # Hello World
     - name: Hello World
       run: echo "Hello pipeline with Github Actions"
-    
-    # Sonar Complete
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
+    # Cache Maven pom
     - name: Cache Maven packages
       uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
+    
+    # Sonar Complete
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
     - name: Build and analyze
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +59,18 @@ jobs:
         reporter: java-junit
         fail-on-error: true  
     
+  publication-jar:
     # Artifact jar
+    name: Publication Jar file
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
     - name: Upload Maven build artifact
       uses: actions/upload-artifact@v3
       with:
@@ -72,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Config environment
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
      # Deploy Heroku with plugin     
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
