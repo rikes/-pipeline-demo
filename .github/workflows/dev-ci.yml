@@ -26,6 +26,7 @@ jobs:
     # Hello World
     - name: Hello World
       run: echo "Hello pipeline with Github Actions"
+      
     # Cache Maven pom
     - name: Cache Maven packages
       uses: actions/cache@v2

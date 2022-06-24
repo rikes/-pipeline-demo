@@ -16,10 +16,7 @@ public class PipelineService {
     }
 
     public TimeLocal dateTimeNow() {
-        if (1 == 1){
-            return new TimeLocal(this.dateTimeFormat(), this.getZone());
-        }
-        return null;
+        return new TimeLocal(this.dateTimeFormat(), this.getZone());
     }
 
     public String dateTimeFormat(){
