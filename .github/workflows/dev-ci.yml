@@ -65,20 +65,4 @@ jobs:
         name: Maven Tests
         path: target/surefire-reports/*.xml
         reporter: java-junit
-        fail-on-error: true  
-
-  # Deploy Heroku
-  deploy:
-    name: Heroku Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      # Config environment
-      - uses: actions/checkout@v3
-     # Deploy Heroku with plugin     
-      - uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
-          branch: "origin/dev"
+        fail-on-error: true

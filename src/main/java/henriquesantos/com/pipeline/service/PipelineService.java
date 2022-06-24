@@ -25,6 +25,6 @@ public class PipelineService {
     }
 
     private String getZone(){
-        return ZoneId.of("America/Sao_Paulo").toString();
+        return ZoneId.of("America/Maceio").toString();
     }
 }
