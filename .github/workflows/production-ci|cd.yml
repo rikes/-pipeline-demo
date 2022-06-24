@@ -6,7 +6,10 @@ on:
 
 jobs:
   build:
-
+    permissions:
+      id-token: write
+      contents: read
+      checks: write
     runs-on: ubuntu-latest
 
     steps:
@@ -19,32 +22,58 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    # Sonar Complete
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1
-      with:
-        path: ~/.sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
+    # Cache Maven pom
     - name: Cache Maven packages
       uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
+    
+    # Sonar Complete
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
     - name: Build and analyze
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: mvn -B install -DskipTests org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=rikes_pipeline-demo
 
-    # Tests
-    - name: Maven Test
-      run: mvn test
-    
     # Artifact jar
     - name: Upload Maven build artifact
       uses: actions/upload-artifact@v3
       with:
         name: pipeline-demo.jar
         path: /home/runner/work/pipeline-demo/pipeline-demo/target/pipeline-demo-0.0.1-SNAPSHOT.jar
+
+    # Tests
+    - name: Maven Test
+      run: mvn -Dmaven.test.failure.ignore=true test
+    - name: Report Tests
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Maven Tests
+        path: target/surefire-reports/*.xml
+        reporter: java-junit
+        fail-on-error: true  
+
+  # Deploy Heroku
+  deploy:
+    name: Heroku Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Config environment
+      - uses: actions/checkout@v3
+     # Deploy Heroku with plugin     
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          branch: "origin/master"

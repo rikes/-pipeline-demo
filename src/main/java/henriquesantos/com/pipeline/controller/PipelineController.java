@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import henriquesantos.com.pipeline.domain.TimeLocal;
 import henriquesantos.com.pipeline.service.PipelineService;
 
 /**
@@ -22,5 +23,10 @@ public class PipelineController {
 	@GetMapping("/hello-world")
 	public ResponseEntity<String> get() {
         return ResponseEntity.ok(pipelineService.run());
+	}
+
+    @GetMapping("/date")
+	public ResponseEntity<TimeLocal> getDate() {
+        return ResponseEntity.ok(pipelineService.dateTimeNow());
 	}
 }
