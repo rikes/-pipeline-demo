@@ -16,7 +16,10 @@ public class PipelineService {
     }
 
     public TimeLocal dateTimeNow() {
-        return new TimeLocal(this.dateTimeFormat(), this.getZone());
+        if(1 == 1){
+            return new TimeLocal(this.dateTimeFormat(), this.getZone());
+        }
+        return null;
     }
 
     public String dateTimeFormat(){
@@ -25,6 +28,6 @@ public class PipelineService {
     }
 
     private String getZone(){
-        return ZoneId.of("America/Sao_Paulo").toString();
+        return ZoneId.of("America/Maceio").toString();
     }
 }
